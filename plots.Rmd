@@ -15,6 +15,8 @@ library(tidyverse)
 library(p8105.datasets) # Using the data sets package
 library(plotly)
 library(lubridate) # For data cleaning
+library(viridis) # Used for Plot 3
+library(flexdashboard) # Used for flexdashboard
 
 ```
 
@@ -145,6 +147,26 @@ rest_inspec_clean %>%
 Lastly, we can also create a bar chart
 
 ```{r plotly_barchart}
+
+rest_inspec_clean %>%
+  distinct( # Making sure inspection grades are not repeated
+    grade, camis, dba, boro, inspection_date
+  ) %>%
+  filter(
+    !is.na(grade),!is.na(boro)
+  ) %>%
+  # Following the example from lecture:
+  count(grade, boro) %>% # Counting the inspection by grade and boro
+  plot_ly(
+    x = ~boro, y = ~n, color = ~grade, type = "bar", 
+    colors = viridisLite::viridis(6) # Kept running into issues with viridis so had to specify
+  ) %>% 
+  layout(
+    title = "Restaurant Inspection Grades by Borough in NYC",
+    xaxis = list(title = "Borough"),
+    yaxis = list(title = "Number of Inspections"),
+    barmode = "stack" # This allows me to stack the grade bars per boro
+  )
 
 ```
 
