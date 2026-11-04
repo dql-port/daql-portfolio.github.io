@@ -1,0 +1,85 @@
+---
+title: "Resume"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+
+
+
+
+# Professional Synopsis
+
+### **NYC Preparedness & Recovery Institute (PRI) | ICAP at Columbia, Strategic Information Unit**
+*Analytics and Evaluation Consultant* | New York, NY | **Jun 2026 – Sep 2026**
+
+- Drove analytics, geospatial mapping, and intervention evaluation including WASH for a CDC-funded preparedness project involving 8 CBOs across NYC, NYS, NJ, Puerto Rico, and USVI.
+- Translated evaluation findings into recommendations for PRI leadership, 3 CDC-funded partners, and 10 regional stakeholders.
+- Produced 10+ bilingual English/Spanish materials to support stakeholder communication and preparedness coordination.
+
+### **Eastern Mediterranean Public Health Network (EMPHNET) | One Health Unit**
+*Engage Program Intern* | Amman, Jordan | **Jun 2025 – Jan 2026**
+
+- Co-led University of Geneva international collaboration to define “Humanitarian One Health” and develop operational criteria for classifying interventions across 9 countries in the Eastern Mediterranean Region.
+- Synthesized 10 years of humanitarian, disaster, and policy data into recommendations for regional public health programming.
+- Developed R code analyzing 537 survey entries informing a prevention campaign for the Iraqi Women’s Cancer Elimination Project.
+
+### **Icahn School of Medicine at Mount Sinai | Integrative Sleep Center**
+*Clinical Research Coordinator* | New York, NY | **Aug 2023 – Aug 2024**
+
+- Spearheaded recruitment, scheduling, patient navigation, and clinician communication for an NIH-funded clinical study, nearly doubling annual protocol completion.
+- Analyzed sleep and actigraphy clinical data; findings were presented at the SLEEP 2024 Conference and published in Oxford Academic.
+- Managed protected health information for 120+ participants using EPIC and REDCap databases in accordance with IRB and HIPAA requirements.
+
+---
+
+# Public Service, Leadership & Volunteering
+
+### **Columbia University Mailman School of Public Health | Office of Educational Initiatives**
+*Lead Teaching Assistant – Quantitative Foundations* | New York, NY | **Sep 2026 – Present**
+
+- Lead and coordinate 18 TAs, collaborate with 2 faculty, and liaise between 450+ students and university academic offices.
+
+*Teaching Assistant – Data Science & Health Equity, Community-Based Research, and Quantitative Foundations* | **Sep 2025 – May 2026**
+
+- Applied learning materials to translate quantitative, policy, and health equity concepts into practice-based health analysis.
+
+### **Humanitarian Organization for Migration and Emergencies (HOME)**
+*President – Columbia University Mailman School of Public Health* | New York, NY | **Mar 2026 – Present**
+
+- Spearhead student engagement in forced migration by coordinating volunteering initiatives and co-organizing the inaugural faculty–student symposium through the University-wide Committee on Forced Migration, reaching 300+ participants.
+
+### **Patient Advocacy Volunteer Program in Emergency Room Services (PAVERS)**
+*Emergency Department Volunteer – NYU Langone Health & NYC Health + Hospitals/Bellevue* | New York, NY | **Jun 2022 – Dec 2022**
+
+- Supported patient navigation and advocacy in high-volume safety-net clinic and emergency room settings for 400+ hours.
+
+### **UDEM’s Drivers of Change | Universidad de Monterrey (UDEM)**
+*Lead, Clinical Programming and Public Relations* | Monterrey, NL, Mexico | **Aug 2016 – May 2020**
+
+- Completed 1,600 certified hours of community service and social innovation training with a community research focus.
+- Spearheaded a medical event providing free health check-ups to 173 community members, dispensed 300+ prophylactics, and referred 102 patients to higher-level medical care across 11 medical areas.
+
+### **Programa de la Vivienda Sustentable | International Cooperation Project**
+*Clinical Volunteer – Universidad de Monterrey and United Nations High Commissioner for Refugees (UNHCR)* | Mongu, Western Province, Zambia | **Jun 2017 – Jul 2017**
+
+- Collaborated with the Government of Zambia to provide first aid and medical screenings at UNHCR’s Mayukwayukwa Refugee Settlement, serving a population of 15,000+ from 7+ countries.
+- Co-conducted an HIV prevention campaign, distributing 200+ sexual prophylactics among sexually active refugees.
+- Facilitated 3 workshops on gender-based violence prevention and economic empowerment in Zambia’s Western Province.
+
+---
+
+# Fellowships, Awards & Distinctions
+
+- **First Place, Health Messaging for Justice Competition** – Columbia Mailman School of Public Health | May 2026
+- **Department of Sociomedical Sciences Community Scholar** – Columbia University | Apr 2024
+- **Rhodes Scholarship Global Constituency Finalist** – The Rhodes Trust | Nov 2022
+
+---
+
+# Skills
+
+**Languages:** Spanish (Native Proficiency), English (Fluent), Portuguese (Intermediate), French (Basic)  
+**Software:** Microsoft Office Suite, Google Workspace, R/RStudio, Stata, SAS, Python, QGIS, Atlas.ti
