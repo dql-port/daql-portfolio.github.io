@@ -142,6 +142,8 @@ rest_inspec_clean %>%
     yaxis = list(title = "Average Inspection Score")
   )
 
+# NOTES: Try out box plot without colors and check if you can add layer of points behind black box plot. Cuisine description by color might also be good.
+
 ```
 
 Lastly, we can also create a bar chart
