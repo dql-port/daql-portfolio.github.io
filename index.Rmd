@@ -8,18 +8,22 @@ output:
 
 # Welcome!
 
-<img src="images/Headshot.jpg" style="width:75%">
+<img src="images/Headshot.jpg" style="width:200px">
 
-This is the portfolio page for Diego A. Quintana Licona.
+This is the portfolio page for **Diego Licona**.
 
 _Working at the intersection of healthcare, data, and humanitarian practice—pursuing a dual MPH/MPA at Columbia University and passionate about translating research into actionable solutions for complex health system challenges._
 
-To learn about my academic and professional trajectory, see my [About Page](about.html)
+To learn about Diego's academic and professional trajectory, see [this page](about.html).
 
-To see my resume, check [this page](resume.html)
+To see Diego's resume, check [this page](resume.html).
 
 
-# Feel free to contact me at:
+# Feel free to contact Diego at...
+
+**Email:** [daq2107@cumc.columbia.edu](mailto:daq2107@cumc.columbia.edu)  
+**GitHub:** [dql-port](https://github.com/dql-port/)  
+**LinkedIn:** [LinkedIn Profile](https://www.linkedin.com/in/daql/)
 
 
 

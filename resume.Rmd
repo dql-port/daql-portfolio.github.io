@@ -6,9 +6,24 @@ output:
     toc_float: true
 ---
 
+# Education
 
+### **Columbia University | Mailman School of Public Health & School of International and Public Affairs (SIPA)**
+New York, NY | **Anticipated May 2027**
 
+*Master of Public Health – Sociomedical Sciences | Public Health Research Methods*  
+*Master of Public Administration – Data Science for Policy | Development & Governance*
 
+### **New York University | College of Arts and Science**
+New York, NY | **May 2022**
+
+*Bachelor of Science – Chemistry (Honors) | Gender & Sexuality Studies (High Honors)*  
+**Latin Honors:** Cum Laude
+
+### **Universidad de Monterrey (UDEM)**
+Monterrey, NL, Mexico | **Aug 2016 – May 2019**
+
+---
 
 # Professional Synopsis
 
@@ -82,4 +97,3 @@ output:
 # Skills
 
 **Languages:** Spanish (Native Proficiency), English (Fluent), Portuguese (Intermediate), French (Basic)  
-**Software:** Microsoft Office Suite, Google Workspace, R/RStudio, Stata, SAS, Python, QGIS, Atlas.ti

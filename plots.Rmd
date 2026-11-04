@@ -6,15 +6,145 @@ output:
     toc_float: true
 ---
 
-# Here are some cool plots
+# Loading libraries and data:
 
-Here's a scatter plot
 
-```{r}
+```{r librariess}
+
 library(tidyverse)
+library(p8105.datasets) # Using the data sets package
+library(plotly)
+library(lubridate) # For data cleaning
 
 ```
 
 
-Another cool thing is scatterplots check this out
+Now we can load and clean the data corresponding to the _NYC Restaurant Inspection_ data set:
+
+```{r load_clean_data}
+
+# Loading data set of choice:
+
+data("rest_inspec")
+
+# Inspecting:
+
+head(rest_inspec, 5)
+
+# We can go ahead and clean our data set:
+
+rest_inspec_clean =
+  rest_inspec %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    cuisine_description = case_match(
+      # Simplifying one of the cuisine labels so reads better in plot
+      cuisine_description,
+      "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" ~ "Latin (Non-Mexican)",
+      .default = cuisine_description # Keeping all other cuisine labels as they are
+    )) %>% 
+  # Kept getting some weird latitude and longitudes when making first plot, so filtering for that here:
+  filter(
+    latitude != 0, longitude != 0, !is.na(latitude), !is.na(longitude)
+  )
+
+```
+
+
+```{r plotly_geoscatter}
+
+# For the first plot, I will create a geographical scatter plot detailing the average inspection score for distinct locations:
+
+rest_inspec_clean %>% 
+  distinct( # Making sure we have distinct observations to avoid repeats
+    latitude, longitude, camis, dba, boro, inspection_date, score
+  ) %>% 
+  group_by(latitude, longitude, camis, dba, boro) %>% # Grouping
+  summarize(
+    avg_score = mean(score, na.rm = TRUE) # Creating the average score across locations
+  ) %>% 
+  mutate(
+    text_label = str_c("Average Score", avg_score) # Creating my label
+  ) %>% 
+  filter( # Removing missing values for the coordinates and mean score
+    !is.na(latitude),
+    !is.na(longitude),
+    !is.na(avg_score)
+  ) %>% 
+  plot_ly(
+    x = ~longitude, y = ~latitude, type = "scatter", mode = "markers", 
+    color = ~avg_score, text = ~text_label, alpha = 0.5,
+    hoverinfo = "text"
+  ) %>% 
+  layout(
+    title = "Average Inspection Score by Restaurant in NYC",
+    xaxis = list(title = "Longitude"),
+    yaxis = list(title = "Latitude")
+  ) %>% 
+  # Changiing the label of the legend
+  colorbar("Average Inspection Score")
+
+
+```
+
+
+
+
+We can also create a box plot detailing the ....
+
+```{r plotly_boxplot}
+
+# Created code separately to identify the top 10 cuisines from the inspection data:
+
+top10 =
+  rest_inspec_clean %>% 
+  distinct(cuisine_description, camis) %>% # Finding by distinct cuisine and rest
+  count(cuisine_description, sort=TRUE) %>%  # Getting the sorted counts
+  slice_head(n=10) %>% 
+  pull(cuisine_description)
+
+# Inspecting the top 10 distinct cuisines:
+
+top10
+
+# Now doing my boxplot only with the Top 10 cuisines to make it less messy:
+
+rest_inspec_clean %>%
+  distinct( # Making sure inspection scores are not repeated from different instances of violations
+    cuisine_description, camis, dba, boro, inspection_date, score
+  ) %>%
+  filter(
+    cuisine_description %in% top10, # Filtering for only Top 10 cuisines
+    # I kept getting a boro group equal to zero, so I removed that:
+    boro != "0"
+  ) %>%
+  group_by(cuisine_description, camis, dba, boro) %>% # Grouping by camis which represents a unique restaurant
+  summarize(
+    avg_score = mean(score, na.rm = TRUE) # Getting the average score
+  ) %>% 
+  filter( # Removing the NA values
+    !is.na(avg_score),
+    !is.na(cuisine_description),
+    !is.na(boro)
+  ) %>%
+  mutate( # Addiing labels and reordering like in lecture
+    cuisine_label = str_to_title(cuisine_description), # Cleaning my title
+    cuisine_label = fct_reorder(cuisine_label, avg_score)
+  ) %>% 
+  plot_ly(
+    x = ~cuisine_description, y = ~avg_score, color = ~boro, type = "box"
+  ) %>% 
+  layout(
+    title = "Average Inspection Score by Top 10 Cuisines in NYC",
+    xaxis = list(title = "Cuisine", automargin = TRUE), # Adding margin due to long label
+    yaxis = list(title = "Average Inspection Score")
+  )
+
+```
+
+Lastly, we can also create a bar chart
+
+```{r plotly_barchart}
+
+```
 
