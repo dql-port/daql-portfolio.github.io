@@ -18,5 +18,4 @@ navbar:
     - icon: fa-linkedin fa-lg
       href: https://www.linkedin.com/in/daql/
 output:
-  html_document:
-    theme: readable
+  html_document
