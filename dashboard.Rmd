@@ -20,10 +20,6 @@ library(viridis) # Used for Plot 3
 
 data("rest_inspec")
 
-# Inspecting:
-
-head(rest_inspec, 5)
-
 # We can go ahead and clean our data set:
 
 rest_inspec_clean =
@@ -38,16 +34,20 @@ rest_inspec_clean =
     )) %>% 
   # Kept getting some weird latitude and longitudes when making first plot, so filtering for that here:
   filter(
-    latitude != 0, longitude != 0, !is.na(latitude), !is.na(longitude)
+    latitude != 0, longitude != 0, !is.na(latitude), !is.na(longitude),
+    
+    # Removing a single extreme outlier from Queens o 164. Keeping the NAs for now (they are removed later)
+    
+    is.na(score) | score < 164
   )
 
 ```
 
 
-Column {data-width=650}
+Column {data-width=600}
 -----------------------------------------------------------------------
 
-### Scatterplot: Average Restaurant Inspection Score by NYC Geolocation
+### Scatterplot: Average Restaurant Inspection Score by NYC Geolocation in Manhattan
 
 ```{r scatterplot}
 # For the first plot, I will create a geographical scatter plot detailing the average inspection score for distinct locations:
@@ -56,14 +56,18 @@ rest_inspec_clean %>%
   distinct( # Making sure we have distinct observations to avoid repeats
     latitude, longitude, camis, dba, boro, inspection_date, score
   ) %>% 
-  group_by(latitude, longitude, camis, dba, boro) %>% # Grouping
+  group_by(latitude, longitude, camis, dba, boro) %>% # Grouping to avoid repeats
   summarize(
     avg_score = mean(score, na.rm = TRUE) # Creating the average score across locations
   ) %>% 
-  mutate(
-    text_label = str_c("Average Score", avg_score) # Creating my label
+  mutate( # Creating labels for the hover menu
+    text_label = str_c(
+      "Average Score: ", round(avg_score, 2), # Rounding the average
+      "<br>Restaurant Name: ", dba,
+      "<br>NYC Borough: ", boro) # notice the added line break
   ) %>% 
   filter( # Removing missing values for the coordinates and mean score
+    boro == "Manhattan", # Decided to simplify and keep it to Manhattan data
     !is.na(latitude),
     !is.na(longitude),
     !is.na(avg_score)
@@ -74,18 +78,28 @@ rest_inspec_clean %>%
     hoverinfo = "text"
   ) %>% 
   layout(
-    title = "Average Inspection Score by Restaurant in NYC",
+    title = "Average Inspection Score by Restaurant in Manhattan",
     xaxis = list(title = "Longitude"),
-    yaxis = list(title = "Latitude")
-  ) %>% 
-  # Changiing the label of the legend
-  colorbar("Average Inspection Score")
+    yaxis = list(title = "Latitude"),
+    #Checked how to add legend on StackOverflow:
+    annotations = list(list(
+      text = "NOTE: Lower inspection scores indicate better performance.",
+      xref = "paper",
+      yref = "paper",
+      x = 0.02, # This adds positioning coordinates
+      y = 0.98,
+      showarrow = FALSE, # This keeps as plain text
+      xanchor = "left",
+      yanchor = "top"
+  ))) %>%  # Adding space below the graph for the legend
+  # Changing the label of the legend
+  colorbar(title = "Average\nInspection\nScore")
 ```
 
-Column {data-width=500}
+Column {data-width=600}
 -----------------------------------------------------------------------
 
-### Boxplot: Average Inspection Score by Top 10 Cuisines in NYC
+### Boxplot: Average Inspection Score by Top 10 Cuisines in NYC: Brooklyn vs. Queens
 
 ```{r boxplot}
 # Created code separately to identify the top 10 cuisines from the inspection data:
@@ -97,10 +111,6 @@ top10 =
   slice_head(n=10) %>% 
   pull(cuisine_description)
 
-# Inspecting the top 10 distinct cuisines:
-
-top10
-
 # Now doing my boxplot only with the Top 10 cuisines to make it less messy:
 
 rest_inspec_clean %>%
@@ -110,7 +120,9 @@ rest_inspec_clean %>%
   filter(
     cuisine_description %in% top10, # Filtering for only Top 10 cuisines
     # I kept getting a boro group equal to zero, so I removed that:
-    boro != "0"
+    boro != "0",
+    # Decided to simplify and do a Brooklyn vs. Queens comparison:
+    boro %in% c("Brooklyn", "Queens")
   ) %>%
   group_by(cuisine_description, camis, dba, boro) %>% # Grouping by camis which represents a unique restaurant
   summarize(
@@ -118,22 +130,39 @@ rest_inspec_clean %>%
   ) %>% 
   filter( # Removing the NA values
     !is.na(avg_score),
-    !is.na(cuisine_description),
-    !is.na(boro)
+    !is.na(cuisine_description)
   ) %>%
-  mutate( # Addiing labels and reordering like in lecture
+  mutate( # Adding labels and reordering like in lecture
     cuisine_label = str_to_title(cuisine_description), # Cleaning my title
-    cuisine_label = fct_reorder(cuisine_label, avg_score)
+    cuisine_label = fct_reorder(cuisine_label, avg_score) # Ordering
   ) %>% 
   plot_ly(
-    x = ~cuisine_description, y = ~avg_score, color = ~boro, type = "box"
+    x = ~cuisine_label, y = ~avg_score, color = ~boro, type = "box",
+    line = list(color = "black"),# Making the boxplot outline black
+    marker = list(size = 6, opacity = 0.7) # Changing size and transparency of points in the box plot
   ) %>% 
   layout(
-    title = "Average Inspection Score by Top 10 Cuisines in NYC",
-    xaxis = list(title = "Cuisine", automargin = TRUE), # Adding margin due to long label
-    yaxis = list(title = "Average Inspection Score")
-  )
-
+    title = "Average Inspection Score by Top 10 Cuisines: Brooklyn vs. Queens",
+    xaxis = list(title = "Cuisine", automargin = TRUE,# Adding margin since long label
+                 tickfont = list(size = 10)), 
+    yaxis = list(title = "Average Inspection Score"),
+    boxmode = "group", # Putting boxes side by side
+    
+    # Had to add even more code to make sure the legend satayed in place:
+    legend = list(  # Legends will be side by side
+    orientation = "h", x = 0.5, xanchor = "center", y = -0.32, yanchor = "top"),
+    
+    # Checked on StackOverflow how to add a legend:
+    annotations = list(list(
+      text = "NOTE: Lower inspection scores indicate better performance.",
+      xref = "paper",
+      yref = "paper",
+      x = 0.5, # This adds positioning coordinates
+      y = 0.92,
+      showarrow = FALSE, # This keeps as plain text
+      xanchor = "center",
+      yanchor = "top"
+    )))
 ```
 
 ### Barchart: Restaurant Inspection Grades by NYC Borough
@@ -151,13 +180,13 @@ rest_inspec_clean %>%
   count(grade, boro) %>% # Counting the inspection by grade and boro
   plot_ly(
     x = ~boro, y = ~n, color = ~grade, type = "bar", 
-    colors = viridisLite::viridis(6) # Kept running into issues with viridis so had to specify
+    colors = viridisLite::viridis(7) # Kept running into issues with viridis so had to specify
   ) %>% 
   layout(
     title = "Restaurant Inspection Grades by Borough in NYC",
     xaxis = list(title = "Borough"),
     yaxis = list(title = "Number of Inspections"),
-    barmode = "stack" # This allows me to stack the grade bars per boro
+    barmode = "group" # This allows me to compare grade grouping bars per boro
   )
 
 ```
