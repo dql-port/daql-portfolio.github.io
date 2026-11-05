@@ -47,7 +47,7 @@ rest_inspec_clean =
 Column {data-width=600}
 -----------------------------------------------------------------------
 
-### Scatterplot: Average Restaurant Inspection Score by NYC Geolocation in Manhattan
+### Scatterplot: Average Restaurant Inspection Score by Geolocation in Manhattan
 
 ```{r scatterplot}
 # For the first plot, I will create a geographical scatter plot detailing the average inspection score for distinct locations:

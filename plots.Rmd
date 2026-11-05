@@ -48,7 +48,7 @@ rest_inspec_clean =
   filter(
     latitude != 0, longitude != 0, !is.na(latitude), !is.na(longitude),
     
-    # Removing a single extreme outlier from Queens o 164. Keeping the NAs for now (they are removed later)
+    # Removing a single extreme outlier from Queens of 164. Keeping the NAs for now (they are removed later)
     
     is.na(score) | score < 164
   )
@@ -86,7 +86,7 @@ rest_inspec_clean %>%
   plot_ly(
     x = ~longitude, y = ~latitude, type = "scatter", mode = "markers", 
     color = ~avg_score, text = ~text_label, alpha = 0.5,
-    hoverinfo = "text", split = ~boro # Splitting by boro to avoid overlapping box
+    hoverinfo = "text"
   ) %>% 
   layout(
     title = "Average Inspection Score by Restaurant in Manhattan",
@@ -94,19 +94,17 @@ rest_inspec_clean %>%
     yaxis = list(title = "Latitude"),
     #Checked how to add legend on StackOverflow:
     annotations = list(list(
-      text = "NOTE: Lower inspection scores indicates better performance.",
+      text = "NOTE: Lower inspection scores indicate better performance.",
       xref = "paper",
       yref = "paper",
-      x = 0.5, # This adds positioning coordinates
-      y = -0.2,
+      x = 0.02, # This adds positioning coordinates
+      y = 0.98,
       showarrow = FALSE, # This keeps as plain text
-      xanchor = "center",
+      xanchor = "left",
       yanchor = "top"
-  )),
-  margin = list(b = 110)) %>%  # Adding space below the graph for the legend
+  ))) %>%  # Adding space below the graph for the legend
   # Changing the label of the legend
-  colorbar(title = "Average Inspection\nScore")
-
+  colorbar(title = "Average\nInspection\nScore")
 
 ```
 
@@ -122,10 +120,6 @@ top10 =
   count(cuisine_description, sort=TRUE) %>%  # Getting the sorted counts
   slice_head(n=10) %>% 
   pull(cuisine_description)
-
-# Inspecting the top 10 distinct cuisines:
-
-top10
 
 # Now doing my boxplot only with the Top 10 cuisines to make it less messy:
 
@@ -148,7 +142,7 @@ rest_inspec_clean %>%
     !is.na(avg_score),
     !is.na(cuisine_description)
   ) %>%
-  mutate( # Addiing labels and reordering like in lecture
+  mutate( # Adding labels and reordering like in lecture
     cuisine_label = str_to_title(cuisine_description), # Cleaning my title
     cuisine_label = fct_reorder(cuisine_label, avg_score) # Ordering
   ) %>% 
@@ -158,22 +152,27 @@ rest_inspec_clean %>%
     marker = list(size = 6, opacity = 0.7) # Changing size and transparency of points in the box plot
   ) %>% 
   layout(
-    title = "Average Inspection Score by Top 10 Cuisines in NYC\nBrooklyn vs. Queens Showdown",
-    xaxis = list(title = "Cuisine", automargin = TRUE), # Adding margin due to long label
-    yaxis = list(title = "Average Inspection\nScore"),
+    title = "Average Inspection Score by Top 10 Cuisines: Brooklyn vs. Queens",
+    xaxis = list(title = "Cuisine", automargin = TRUE,# Adding margin since long label
+                 tickfont = list(size = 10)), 
+    yaxis = list(title = "Average Inspection Score"),
     boxmode = "group", # Putting boxes side by side
     
-    # Checked on StackOverflow how to add a legend:
+    # Had to add even more code to make sure the legend satayed in place:
+    legend = list(  # Legends will be side by side
+    orientation = "h", x = 0.5, xanchor = "center", y = -0.32, yanchor = "top"),
     
+    # Checked on StackOverflow how to add a legend:
     annotations = list(list(
-      text = "NOTE: Lower inspection scores indicates better performance.",
+      text = "NOTE: Lower inspection scores indicate better performance.",
       xref = "paper",
       yref = "paper",
       x = 0.5, # This adds positioning coordinates
-      y = -0.40,
-      showarrow = FALSE # This keeps as plain text
-    )),
-    margin = list(b = 170)) # Adding space below the graph for the legend)
+      y = 0.92,
+      showarrow = FALSE, # This keeps as plain text
+      xanchor = "center",
+      yanchor = "top"
+    )))
 
 ```
 
